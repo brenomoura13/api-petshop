@@ -30,6 +30,13 @@ class Provider {
     this.dataAtualizacao = result.dataAtualizacao;
     this.versao = result.versao;
   }
+
+  async load() {
+    const providerFound = await providerTable.getById(this.id);
+    this.company = providerFound.company;
+    this.email = providerFound.email;
+    this.category = providerFound.category;
+  }
 }
 
 module.exports = Provider;
