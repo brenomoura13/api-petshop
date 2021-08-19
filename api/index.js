@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const config = require("config");
-const router = require("./rotas/fornecedores");
+const router = require("./rotas/providers");
 
 app.use(express.json());
 app.use(
@@ -10,7 +10,6 @@ app.use(
   })
 );
 
-app.use("/api/fornecedores", router);
+app.use("/api/providers", router);
 
 app.listen(config.get("api.port"), () => console.log("API initialized"));
-
