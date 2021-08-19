@@ -37,6 +37,23 @@ class Provider {
     this.email = providerFound.email;
     this.category = providerFound.category;
   }
+
+  async update() {
+    await providerTable.getById(this.id);
+    const list = ["company", "email", "category"];
+    const dataToUpdate = {};
+    list.forEach((list) => {
+      const value = this[list];
+      if (typeof value === "string" && value.length > 0) {
+        dataToUpdate[list] = value;
+      }
+    });
+
+    if (Object.keys(dataToUpdate).length === 0) {
+      throw new Error("Insufficient data");
+    }
+    await providerTable.update(this.id, dataToUpdate);
+  }
 }
 
 module.exports = Provider;

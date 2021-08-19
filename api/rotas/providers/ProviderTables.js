@@ -20,4 +20,8 @@ module.exports = {
     }
     return found;
   },
+
+  update(id, data) {
+    return Model.update(data, { where: { id: id } });
+  },
 };
