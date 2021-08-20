@@ -18,7 +18,21 @@ class Provider {
     this.dataAtualizacao = dataAtualizacao;
     this.versao = versao;
   }
+
+  validate() {
+    const data = ["company", "email", "category"];
+
+    data.forEach((field) => {
+      const value = this[field];
+
+      if (typeof value !== "string" || value.length === 0) {
+        throw new Error(`Field '${field}' is required`);
+      }
+    });
+  }
+
   async create() {
+    this.validate();
     const result = await providerTable.input({
       company: this.company,
       email: this.email,
@@ -53,6 +67,10 @@ class Provider {
       throw new Error("Insufficient data");
     }
     await providerTable.update(this.id, dataToUpdate);
+  }
+
+  remove() {
+    return providerTable.remove(this.id);
   }
 }
 

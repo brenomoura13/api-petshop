@@ -10,10 +10,14 @@ router.get("/", async (_, res) => {
 
 /* Persistindo dados */
 router.post("/", async (req, res) => {
-  const receivedData = req.body;
-  const provider = new Provider(receivedData);
-  await provider.create();
-  res.send(JSON.stringify(provider));
+  try {
+    const receivedData = req.body;
+    const provider = new Provider(receivedData);
+    await provider.create();
+    res.send(JSON.stringify(provider));
+  } catch (e) {
+    res.send(JSON.stringify({ message: e.message }));
+  }
 });
 
 /* Persistindo dados - Procurando por ID */
@@ -36,6 +40,19 @@ router.put("/:idProvider", async (req, res) => {
     const data = Object.assign({}, receivedData, { id: id });
     const provider = new Provider(data);
     await provider.update();
+    res.end();
+  } catch (e) {
+    res.send(JSON.stringify({ message: e.message }));
+  }
+});
+
+/* Deletando uma empresa através de um ID fornecido */
+router.delete("/:idProvider", async (req, res) => {
+  try {
+    const id = req.params.idProvider;
+    const provider = new Provider({ id: id });
+    await provider.load();
+    await provider.remove();
     res.end();
   } catch (e) {
     res.send(JSON.stringify({ message: e.message }));
