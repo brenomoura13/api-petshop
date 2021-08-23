@@ -2,7 +2,7 @@
   "mysql": {
     "bd": "petshop",
     "user": "root",
-    "pass": "123456",
+    "pass": "",
     "host": "127.0.0.1"
   },
   "api": {
