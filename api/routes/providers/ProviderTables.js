@@ -1,4 +1,5 @@
 const Model = require("./ModelTabProvider");
+const NotFound = require("../../errors/NotFound");
 
 module.exports = {
   getList() {
@@ -16,7 +17,7 @@ module.exports = {
       },
     });
     if (!found) {
-      throw new Error("Provider not found :(");
+      throw new NotFound("Provider not found :(");
     }
     return found;
   },

@@ -38,7 +38,7 @@ router.get("/:idProvider", async (req, res) => {
 });
 
 /* Alterando estados através de um ID fornecido */
-router.put("/:idProvider", async (req, res) => {
+router.put("/:idProvider", async (req, res, next) => {
   try {
     const id = req.params.idProvider;
     const receivedData = req.body;
@@ -48,8 +48,7 @@ router.put("/:idProvider", async (req, res) => {
     res.status(204);
     res.end();
   } catch (e) {
-    res.status(400);
-    res.send(JSON.stringify({ message: e.message }));
+    next(e);
   }
 });
 

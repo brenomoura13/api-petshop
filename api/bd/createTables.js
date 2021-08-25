@@ -1,4 +1,4 @@
-const TableModel = require("../rotas/fornecedores/ModelTabProvider");
+const TableModel = require("../routes/fornecedores/ModelTabProvider");
 
 /* Creating tables in database*/
 
