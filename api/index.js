@@ -5,6 +5,7 @@ const router = require("./routes/providers");
 const NotFound = require("./errors/NotFound");
 const InvalidField = require("./errors/InvalidField");
 const DataNotProvided = require("./errors/DataNotProvided");
+const ValueNotSupported = require("./errors/ValueNotSupported");
 
 app.use(express.json());
 app.use(
@@ -24,6 +25,10 @@ app.use((e, req, res, next) => {
   }
   if (e instanceof InvalidField || e instanceof DataNotProvided) {
     status = 400;
+  }
+
+  if (e instanceof ValueNotSupported) {
+    status = 406;
   }
   res.status(status);
   res.send(JSON.stringify({ message: e.message, id: e.errorID }));
