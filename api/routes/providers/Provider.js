@@ -1,4 +1,6 @@
 const providerTable = require("./ProviderTables");
+const InvalidField = require("../../errors/InvalidField");
+const DataNotProvided = require("../../errors/DataNotProvided");
 
 class Provider {
   constructor({
@@ -26,7 +28,7 @@ class Provider {
       const value = this[field];
 
       if (typeof value !== "string" || value.length === 0) {
-        throw new Error(`Field '${field}' is required`);
+        throw new InvalidField(field);
       }
     });
   }
@@ -64,7 +66,7 @@ class Provider {
     });
 
     if (Object.keys(dataToUpdate).length === 0) {
-      throw new Error("Insufficient data");
+      throw new DataNotProvided();
     }
     await providerTable.update(this.id, dataToUpdate);
   }

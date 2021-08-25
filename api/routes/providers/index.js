@@ -10,7 +10,7 @@ router.get("/", async (_, res) => {
 });
 
 /* Persistindo dados */
-router.post("/", async (req, res) => {
+router.post("/", async (req, res, next) => {
   try {
     const receivedData = req.body;
     const provider = new Provider(receivedData);
@@ -18,13 +18,12 @@ router.post("/", async (req, res) => {
     res.status(201);
     res.send(JSON.stringify(provider));
   } catch (e) {
-    res.status(400);
-    res.send(JSON.stringify({ message: e.message }));
+    next(e);
   }
 });
 
 /* Persistindo dados - Procurando por ID */
-router.get("/:idProvider", async (req, res) => {
+router.get("/:idProvider", async (req, res, next) => {
   try {
     const id = req.params.idProvider;
     const provider = new Provider({ id: id });
@@ -32,8 +31,7 @@ router.get("/:idProvider", async (req, res) => {
     res.status(200);
     res.send(JSON.stringify(provider));
   } catch (e) {
-    res.status(404);
-    res.send(JSON.stringify({ message: e.message }));
+    next(e);
   }
 });
 
@@ -53,7 +51,7 @@ router.put("/:idProvider", async (req, res, next) => {
 });
 
 /* Deletando uma empresa através de um ID fornecido */
-router.delete("/:idProvider", async (req, res) => {
+router.delete("/:idProvider", async (req, res, next) => {
   try {
     const id = req.params.idProvider;
     const provider = new Provider({ id: id });
@@ -62,8 +60,7 @@ router.delete("/:idProvider", async (req, res) => {
     res.status(204);
     res.end();
   } catch (e) {
-    res.status(404);
-    res.send(JSON.stringify({ message: e.message }));
+    next(e);
   }
 });
 
