@@ -6,6 +6,7 @@ const NotFound = require("./errors/NotFound");
 const InvalidField = require("./errors/InvalidField");
 const DataNotProvided = require("./errors/DataNotProvided");
 const ValueNotSupported = require("./errors/ValueNotSupported");
+const AcceptedFormats = require("./serializer").AcceptedFormats;
 
 app.use(express.json());
 app.use(
@@ -13,6 +14,23 @@ app.use(
     extended: true,
   })
 );
+
+app.use((req, res, next) => {
+  let requiredFormat = req.header("Accept");
+
+  if (requiredFormat === "*/*") {
+    requiredFormat = "application/json";
+  }
+
+  if (AcceptedFormats.indexOf(requiredFormat) === -1) {
+    res.status(406);
+    res.end();
+    return;
+  }
+
+  res.setHeader("Content-Type", requiredFormat);
+  next();
+});
 
 app.use("/api/providers", router);
 
