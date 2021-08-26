@@ -1,6 +1,6 @@
 const ValueNotSupported = require("./errors/ValueNotSupported");
 
-class Serializer {
+class Serialize {
   json(data) {
     return JSON.stringify(data);
   }
@@ -13,7 +13,15 @@ class Serializer {
   }
 }
 
+class VendorSerializer extends Serialize {
+  constructor(contentType) {
+    super();
+    this.contentType = contentType;
+  }
+}
+
 module.exports = {
-  Serializer: Serializer,
+  Serialize: Serialize,
+  VendorSerializer: VendorSerializer,
   AcceptedFormats: ["application/json"],
 };
