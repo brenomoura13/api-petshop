@@ -7,6 +7,7 @@ const InvalidField = require("./errors/InvalidField");
 const DataNotProvided = require("./errors/DataNotProvided");
 const ValueNotSupported = require("./errors/ValueNotSupported");
 const AcceptedFormats = require("./serializer").AcceptedFormats;
+const ErrorsSerializer = require("./serializer").ErrorsSerializer;
 
 app.use(express.json());
 app.use(
@@ -48,6 +49,7 @@ app.use((e, req, res, next) => {
   if (e instanceof ValueNotSupported) {
     status = 406;
   }
+  const serialize = new ErrorsSerializer(res.getHeader("Content-Type"));
   res.status(status);
-  res.send(JSON.stringify({ message: e.message, id: e.errorID }));
+  res.send(serialize.serializer({ message: e.message, id: e.errorID }));
 });

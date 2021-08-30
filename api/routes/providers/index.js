@@ -32,7 +32,10 @@ router.get("/:idProvider", async (req, res, next) => {
     const provider = new Provider({ id: id });
     await provider.load();
     res.status(200);
-    const serialize = new VendorSerializer(res.getHeader("Content-Type"));
+    const serialize = new VendorSerializer(res.getHeader("Content-Type"), [
+      "email",
+      "versao",
+    ]);
     res.send(serialize.serializer(provider));
   } catch (e) {
     next(e);
