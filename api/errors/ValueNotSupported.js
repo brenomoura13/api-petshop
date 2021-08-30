@@ -5,3 +5,5 @@ class ValueNotSupported extends Error {
     this.errorID = 3;
   }
 }
+
+module.exports = ValueNotSupported;
